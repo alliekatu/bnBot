@@ -1,18 +1,15 @@
-//IMPORTS
+//CONSTANTS
 const fs = require('node:fs');
 const path = require('node:path');
 const { config } = require('dotenv'); 
 config();
 const { Client, Collection } = require('discord.js');
-
-
-//CONSTANTS
 const TOKEN = process.env.BNBOT;
 const client = new Client({intents: 
     3243773
 });
 
-
+//GETS COMMAND FILES
 client.commands = new Collection();
 const commandsPath = path.join(__dirname, 'commands');
 const commandFiles = fs.readdirSync(commandsPath).filter(file => file.endsWith('.js'));
@@ -23,7 +20,7 @@ for (const file of commandFiles) {
 	client.commands.set(command.data.name, command);
 }
 
-//LOGIN
+//LOGIN AND STATUS
 client.login(TOKEN);
 client.on('ready', () => {
     console.log(`${client.user.tag} up`);

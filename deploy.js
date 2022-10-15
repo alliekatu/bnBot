@@ -1,3 +1,4 @@
+//CONSTANTS
 const fs = require('node:fs');
 const path = require('node:path');
 const { config } = require('dotenv'); 
@@ -10,6 +11,8 @@ const TOKEN = process.env.BNBOT;
 //REST
 const rest = new REST({version: '10'}).setToken(TOKEN);
 
+//DON'T WORRY ABOUT THIS TOO MUCH
+//THIS JUST REGISTERS SLASH COMMANDS
 async function main() {
 
     const commands = [];
