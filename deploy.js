@@ -1,18 +1,16 @@
-//CONSTANTS
+//constants
 const fs = require('node:fs');
 const path = require('node:path');
 const { config } = require('dotenv'); 
 config()
-const { Routes } = require('discord.js');
-const  { REST } = require('@discordjs/rest');
 const CLIENT_ID = process.env.BNBOT_ID;
 const TOKEN = process.env.BNBOT;
-
-//REST
+const { Routes } = require('discord.js');
+const { REST } = require('@discordjs/rest');
 const rest = new REST({version: '10'}).setToken(TOKEN);
 
-//DON'T WORRY ABOUT THIS TOO MUCH
-//THIS JUST REGISTERS SLASH COMMANDS
+//dont worry about this too much
+//this just registers commands
 async function main() {
 
     const commands = [];
@@ -26,12 +24,14 @@ async function main() {
         commands.push(command.data.toJSON());
     }
 
-    try {
-        console.log('started / refresh');
-        await rest.put(Routes.applicationGuildCommands(CLIENT_ID, '1030572394525503488'), { body: commands })
-        .then(data => console.log(`registered ${data.length} commands`))
-        .catch(console.error);
+    try { console.log('started / refresh');
+
+    await 
+        rest.put(Routes.applicationGuildCommands(CLIENT_ID, '1030572394525503488'), { body: commands })
+        .then(data => 
+            console.log(`registered ${data.length} commands`))
+            .catch(console.error);
         } finally {   
-}};
+    }};
 
 main();
