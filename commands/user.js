@@ -1,3 +1,4 @@
+//CONSTANTS
 const { SlashCommandBuilder, EmbedBuilder } = require('discord.js');
 const { config } = require('dotenv'); 
 config();
@@ -9,6 +10,7 @@ const osuApi = new osu.Api(process.env.OSUAPIKEY, {
 });
 
 module.exports = {
+    // /user COMMAND
 	data: new SlashCommandBuilder()
 		.setName('user')
 		.setDescription('gives basic information for an osu! user')
@@ -17,6 +19,7 @@ module.exports = {
                 .setDescription('the username of the osu! user')
                 .setRequired(true)),
 
+    //GETS OSU USER AND PUTS INFO INTO EMBED
 	async execute(interaction) {
 		const nominator = interaction.options.getString('username');
         
