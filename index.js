@@ -4,7 +4,6 @@ const path = require('node:path');
 const { config } = require('dotenv'); 
 config();
 const { Client, Collection } = require('discord.js');
-const TOKEN = process.env.BNBOT;
 const client = new Client({ intents: 3243773 });
 
 //gets command files and adds them to these constants
@@ -20,7 +19,7 @@ for (const file of commandFiles) {
 }
 
 //puts the bot online and sets status
-client.login(TOKEN);
+client.login(process.env.BNBOT);
 client.on('ready', () => {
     console.log(`${client.user} up`);
 	client.user.setActivity('the BNG', {type: 3})

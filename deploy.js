@@ -2,12 +2,10 @@
 const fs = require('node:fs');
 const path = require('node:path');
 const { config } = require('dotenv'); 
-config()
-const CLIENT_ID = process.env.BNBOT_ID;
-const TOKEN = process.env.BNBOT;
+config();
 const { Routes } = require('discord.js');
 const { REST } = require('@discordjs/rest');
-const rest = new REST({version: '10'}).setToken(TOKEN);
+const rest = new REST({version: '10'}).setToken(process.env.BNBOT);
 
 //dont worry about this too much
 //this just registers commands
@@ -27,7 +25,7 @@ async function main() {
     try { console.log('started / refresh');
 
     await 
-        rest.put(Routes.applicationGuildCommands(CLIENT_ID, '1030572394525503488'), { body: commands })
+        rest.put(Routes.applicationGuildCommands(process.env.BNBOT_ID, '1030572394525503488'), { body: commands })
         .then(data => 
             console.log(`registered ${data.length} commands`))
             .catch(console.error);

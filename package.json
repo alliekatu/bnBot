@@ -15,6 +15,7 @@
     "discord.js": "^14.6.0",
     "fix-esm": "^1.0.1",
     "node-osu": "^2.2.1",
+    "osu-api-extended": "^2.5.10",
     "osu-api-v2": "^0.0.33"
   },
   "devDependencies": {
