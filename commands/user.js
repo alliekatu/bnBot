@@ -12,32 +12,38 @@ module.exports = {
 		.setDescription('gives basic information for an osu! user')
         .addStringOption(option => option.setName('username')
             .setDescription('the username of the osu! user')
-            .setRequired(true))
-        .addStringOption(option => option.setName('gamemode')
-            .setDescription('the gamemode you want to see info for')
             .setRequired(true)),
 
     //what entering the command in discord does
 	async execute(interaction) {
-        //nominator and mode are whatever the user inputs
+        //user is whatever the user inputs
 		const user = interaction.options.getString('username');
-        const mode = interaction.options.getString('gamemode');
         //auth
         await auth.login_lazer(process.env.CLIENT_USER, process.env.CLIENT_SECRET);
 
         const main = async () => {
-            let osuData = await v2.user.details(user, mode);
+            let osuData = await v2.user.details(user, 'osu');
             const userEmbed = new EmbedBuilder()
                     .setColor(0x7f03fc)
-                    .setTitle(`${osuData.username}`)
+                    .setTitle(`${osuData.username}  :flag_${osuData.country.code.toLowerCase()}:`)
                     .setThumbnail(osuData.avatar_url)
                     .setURL(`https://osu.ppy.sh/users/${osuData.id}`)
                     .setAuthor({name: 'bnBot'})
-                    .addFields({ name: 'country', value: `${osuData.country.name} :flag_${osuData.country.code.toLowerCase()}:` })
-                    .addFields({ name: 'groop :)', value: `${osuData.default_group}` })
+                    .setDescription(osuData.default_group.toUpperCase())
+                        .addFields({ name: 'ranked', value: osuData.ranked_and_approved_beatmapset_count.toString(), inline: true })
+                        .addFields({ name: 'pending', value: osuData.pending_beatmapset_count.toString(), inline: true })
+                        .addFields({ name: 'graved', value: osuData.graveyard_beatmapset_count.toString(), inline: true })
+                        .addFields({ name: 'kudosu', value: osuData.kudosu.total.toString() })
+                        .addFields({ name: 'mapping subscribers', value: osuData.mapping_follower_count.toString() })
                 console.log(osuData.username);
+                console.log(osuData.groups)
                 interaction.reply({ embeds: [userEmbed] });
         }
+        const condition = await v2.user.details(user, 'osu')
+        if (condition.default_group = 'bng' || 'nat') {
             main();
+        } else {
+            interaction.reply({content: `${condition.username} is not a beatmap nominator or NAT`})
         }
+    }
 }
