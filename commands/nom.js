@@ -1,5 +1,5 @@
 const fs = require('node:fs');
-const { SlashCommandBuilder, EmbedBuilder } = require('discord.js');
+const { SlashCommandBuilder, EmbedBuilder, Embed } = require('discord.js');
 const { config } = require('dotenv'); 
 config();
 const { v2, auth } = require('osu-api-extended');
@@ -91,18 +91,30 @@ module.exports = {
             // console.log(osuUser);
             // var score = osuUser.replace(/[^0-9]/gi, '')
 
-            const nomEmbed = new EmbedBuilder()
-                    .setColor(0x7f03fc)
-                    .setTitle(`BN score for ${osuData.username}  :flag_${osuData.country.code.toLowerCase()}:`)
-                    .setThumbnail(osuData.avatar_url)
-                    .setURL(`https://osu.ppy.sh/beatmapsets/events?user=${osuData.avatar_url}&types%5B%5D=nominate&types%5B%5D=qualify&types%5B%5D=nomination_reset_received&min_date=&max_date=`)
-                    .setAuthor({name: 'bnBot'})
-                    .setDescription(osuData.default_group.toUpperCase())
-                        .addFields({ name: 'score', value: `${score}`, inline: true })
+            const userEmbed = new EmbedBuilder()
+                .setColor(0xFF9BB0)
+                .setTitle(`${osuData.username}  :flag_${osuData.country.code.toLowerCase()}:`)
+                .setThumbnail(osuData.avatar_url)
+                .setDescription(osuData.default_group.toUpperCase())
+                .setAuthor({name: 'bnBot', iconURL: 'https://i.imgur.com/bEGHL4D.png', url: 'https://github.com/alliekatu/bnBot'})
+                .setURL(`https://osu.ppy.sh/users/${osuData.id}`)
+                    .addFields({ name: 'ranked', value: osuData.ranked_and_approved_beatmapset_count.toString(), inline: true })
+                    .addFields({ name: 'pending', value: osuData.pending_beatmapset_count.toString(), inline: true })
+                    .addFields({ name: 'graved', value: osuData.graveyard_beatmapset_count.toString(), inline: true })
+                    .addFields({ name: 'kudosu', value: osuData.kudosu.total.toString() })
+                    .addFields({ name: 'mapping subscribers', value: osuData.mapping_follower_count.toString() });
 
-                console.log(osuData.username);
-                // console.log(score)
-                interaction.reply({ embeds: [nomEmbed] });
+            const nomEmbed = new EmbedBuilder()
+                .setColor(0xFF9BB0)
+                .setTitle(`BN score for ${osuData.username}  :flag_${osuData.country.code.toLowerCase()}:`)
+                .setThumbnail(osuData.avatar_url)
+                .setDescription('based on unique nomination and reset history')
+                .setURL(`https://osu.ppy.sh/beatmapsets/events?user=${osuData.avatar_url}&types%5B%5D=nominate&types%5B%5D=qualify&types%5B%5D=nomination_reset_received&min_date=&max_date=`)
+                    .addFields({ name: 'score', value: `${score}`, inline: true });
+
+            console.log(osuData.username);
+            // console.log(score)
+            interaction.reply({ embeds: [userEmbed, nomEmbed] });
         });
     }
         main();
