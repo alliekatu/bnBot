@@ -34,11 +34,13 @@ module.exports = {
                         .addFields({ name: 'pending', value: osuData.pending_beatmapset_count.toString(), inline: true })
                         .addFields({ name: 'graved', value: osuData.graveyard_beatmapset_count.toString(), inline: true })
                         .addFields({ name: 'kudosu', value: osuData.kudosu.total.toString() })
-                        .addFields({ name: 'mapping subscribers', value: osuData.mapping_follower_count.toString() })
-                console.log(osuData.username);
-                console.log(osuData.groups)
-                interaction.reply({ embeds: [userEmbed] });
+                        .addFields({ name: 'mapping subscribers', value: osuData.mapping_follower_count.toString() });
+
+            console.log(osuData.username);
+            console.log(osuData.groups);
+            interaction.reply({ embeds: [userEmbed] });
         }
+
         const condition = await v2.user.details(user, 'osu')
         if (condition.default_group = 'bng' || 'nat') {
             main();

@@ -28,7 +28,7 @@ client.on('ready', () => {
 
 	//grabs bn score for every bn on startup
 	let scores = [];
-	let pyshell = new PythonShell('commands/nomHistory.py');
+	let pyshell = new PythonShell('commands/nom.py');
 
 	pyshell.send('x')
 
