@@ -1,12 +1,12 @@
-//constants
+require('log-timestamp');
 const fs = require('node:fs');
 const path = require('node:path');
-const { config } = require('dotenv'); 
-config();
+const { config } = require('dotenv');
+const { PythonShell } = require('python-shell'); 
 const { Client, Collection } = require('discord.js');
 const client = new Client({ intents: 3243773 });
-const { PythonShell } = require('python-shell');
-require('log-timestamp');
+
+config();
 
 //gets command files and adds them to these constants
 client.commands = new Collection();
@@ -20,13 +20,12 @@ for (const file of commandFiles) {
 	client.commands.set(command.data.name, command);
 }
 
-//puts the bot online and sets status
 client.login(process.env.BNBOT);
 client.on('ready', () => {
     console.log(`${client.user} up`);
 	client.user.setActivity('the BNG', {type: 3})
 
-	//grabs bn score for every bn on startup
+	//updates bn scores in background on startup
 	let scores = [];
 	let pyshell = new PythonShell('commands/nom.py');
 
@@ -45,9 +44,7 @@ client.on('ready', () => {
 					return console.log(err);
 				}
 			})
-			console.log('the exit code was' + code)
-			console.log('the exit signal was' + signal)
-			console.log('finished')
+			console.log('scores updated')
 		}
 	)
 	module.exports = scores;
@@ -64,7 +61,6 @@ client.on('interactionCreate', async interaction => {
 	//does the command
 	try {
 		await command.execute(interaction);
-	//catches if theres an error
 	} catch (error) {
 		console.error(error);
 		await interaction.reply({ content: 'error', ephemeral: true });
