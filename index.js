@@ -1,6 +1,7 @@
 require('log-timestamp');
 const fs = require('node:fs');
 const path = require('node:path');
+const cron = require('node-cron');
 const { config } = require('dotenv');
 const { PythonShell } = require('python-shell'); 
 const { Client, Collection } = require('discord.js');
@@ -25,29 +26,31 @@ client.on('ready', () => {
     console.log(`${client.user} up`);
 	client.user.setActivity('the BNG', {type: 3})
 
+	cron.schedule('0 0 0 * * *', function() {
 	//updates bn scores in background on startup
-	let scores = [];
-	let pyshell = new PythonShell('commands/nom.py');
+		let scores = [];
+		let pyshell = new PythonShell('commands/nom.py');
 
-	pyshell.send('x')
+		pyshell.send('x')
 
-	pyshell.on(`message`, function (message) {
-			scores.push(message);
-			console.log(message);
-		}
-	)
+		pyshell.on(`message`, function (message) {
+				scores.push(message);
+				console.log(message);
+			}
+		)
 
-	pyshell.end(function (err,code,signal) {
-		if (err) throw err;
-			fs.writeFile("commands/scores.txt", JSON.stringify(scores), function(err) {
-				if(err) {
-					return console.log(err);
-				}
-			})
-			console.log('scores updated')
-		}
-	)
-	module.exports = scores;
+		pyshell.end(function (err,code,signal) {
+			if (err) throw err;
+				fs.writeFile("commands/scores.txt", JSON.stringify(scores), function(err) {
+					if(err) {
+						return console.log(err);
+					}
+				})
+				console.log('scores updated')
+			}
+		)
+		module.exports = scores;
+	})
 });
 
 client.on('interactionCreate', async interaction => {
@@ -66,3 +69,5 @@ client.on('interactionCreate', async interaction => {
 		await interaction.reply({ content: 'error', ephemeral: true });
 	}
 });
+
+//pull test
