@@ -4,3 +4,4 @@ node_modules
 .env
 bnBot.png
 commands/scores.txt
+pull.bat
