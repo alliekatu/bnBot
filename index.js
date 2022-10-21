@@ -1,7 +1,6 @@
 require('log-timestamp');
 const fs = require('node:fs');
 const path = require('node:path');
-const cron = require('node-cron');
 const { config } = require('dotenv');
 const { PythonShell } = require('python-shell'); 
 const { Client, Collection } = require('discord.js');
