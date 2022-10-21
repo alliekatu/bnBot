@@ -21,7 +21,7 @@ module.exports = {
         const user = interaction.options.getString('username')
 
         const main = async () => {
-            let osuData = await v2.user.details(user, 'osu');
+            const osuData = await v2.user.details(user, 'osu');
 
             //pull score values and assign them names
             fs.readFile('commands/scores.txt', 'utf8', function(err, data) {

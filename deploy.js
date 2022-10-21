@@ -1,11 +1,10 @@
 const fs = require('node:fs');
 const path = require('node:path');
 const { config } = require('dotenv'); 
+config();
 const { Routes } = require('discord.js');
 const { REST } = require('@discordjs/rest');
 const rest = new REST({version: '10'}).setToken(process.env.BNBOT);
-
-config();
 
 //dont worry about this too much
 //this just registers commands

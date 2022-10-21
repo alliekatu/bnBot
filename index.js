@@ -26,28 +26,28 @@ client.on('ready', () => {
 	client.user.setActivity('the BNG', {type: 3})
 
 	//updates bn scores in background on startup
-		let scores = [];
-		let pyshell = new PythonShell('commands/nom.py');
+	let scores = [];
+	let pyshell = new PythonShell('commands/nom.py');
 
-		pyshell.send('x')
+	pyshell.send('x')
 
-		pyshell.on(`message`, function (message) {
-				scores.push(message);
-				console.log(message);
-			}
-		)
+	pyshell.on(`message`, function (message) {
+			scores.push(message);
+			console.log(message);
+		}
+	)
 
-		pyshell.end(function (err,code,signal) {
-			if (err) throw err;
-				fs.writeFile("commands/scores.txt", JSON.stringify(scores), function(err) {
-					if(err) {
-						return console.log(err);
-					}
-				})
-				console.log('scores updated')
-			}
-		)
-		module.exports = scores;
+	pyshell.end(function (err) {
+		if (err) throw err;
+			fs.writeFile("commands/scores.txt", JSON.stringify(scores), function(err) {
+				if(err) {
+					return console.log(err);
+				}
+			})
+			console.log('scores updated')
+		}
+	)
+	module.exports = scores;
 });
 
 client.on('interactionCreate', async interaction => {
