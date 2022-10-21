@@ -26,7 +26,6 @@ client.on('ready', () => {
     console.log(`${client.user} up`);
 	client.user.setActivity('the BNG', {type: 3})
 
-	cron.schedule('0 0 0 * * *', function() {
 	//updates bn scores in background on startup
 		let scores = [];
 		let pyshell = new PythonShell('commands/nom.py');
@@ -50,7 +49,6 @@ client.on('ready', () => {
 			}
 		)
 		module.exports = scores;
-	})
 });
 
 client.on('interactionCreate', async interaction => {
