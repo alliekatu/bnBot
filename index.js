@@ -70,4 +70,4 @@ client.on('interactionCreate', async interaction => {
 	}
 });
 
-//pull test
+//dev test
